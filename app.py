@@ -19,3 +19,17 @@ def pixel():
 
     # Enviar imagen de 1x1 transparente
     return send_file("pixel.png", mimetype="image/png")
+
+@app.route("/logs")
+def mostrar_logs():
+    try:
+        with open(LOG_FILE, "r", encoding="utf-8") as f:
+            contenido = f.read()
+    except FileNotFoundError:
+        contenido = "Aún no hay registros."
+
+    return f"<pre>{contenido}</pre>"
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
